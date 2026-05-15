@@ -1,58 +1,79 @@
-# Lumen — Online Kurs Platformu
+# Lumen - Online Kurs Platformu
 
-PyQt5 ile modern, koyu temalı bir online kurs yönetim uygulaması.
+Kurs ve egitmen tanimlama, ogrenci kaydi ve kurs kontenjan yonetimi icin gelistirilmis masaustu uygulamasidir. PyQt5 ile koyu temali, electric lime accentli modern bir arayuz sunar.
 
-## Gereksinimler
+## Teknolojiler
 
-```bash
-pip install PyQt5
-```
+- **Python 3** - Programlama dili
+- **PyQt5 (>=5.15.0)** - Masaustu GUI framework
+- **JSON** - Veri kaliciligi
 
-## Çalıştırma
 
-```bash
-cd kurs_platformu
-python main.py
-```
+## Proje Yapisi
 
-İlk açılışta otomatik olarak `data/platform.json` dosyası örnek verilerle oluşturulur. Tüm değişiklikler bu dosyaya otomatik kaydedilir.
+    Lumen - Online Kurs Platformu/
+    ├── main.py                          # Ana giris noktasi
+    ├── backend/
+    │   ├── models.py                    # Kurs, Ogrenci, Egitmen siniflari
+    │   └── service.py                   # PlatformService - veri yonetimi + JSON kaliciligi
+    ├── frontend/
+    │   ├── main_window.py              # Ana pencere (sidebar + sayfalar)
+    │   ├── styles.py                    # Renk paleti + QSS stilleri
+    │   ├── widgets.py                   # StatCard, KursCard, OgrenciCard
+    │   └── dialogs.py                   # Yeni kayit / detay pencereleri
+    ├── images/                          # Ekran goruntuleri
+    └── data/
+        └── platform.json                # Otomatik uretilir
 
-## Proje Yapısı
+## Ana Siniflar
 
-```
-kurs_platformu/
-├── main.py                    # Uygulama giriş noktası
-├── backend/                   # İş mantığı katmanı (UI'dan bağımsız)
-│   ├── models.py              # Kurs, Öğrenci, Eğitmen sınıfları
-│   └── service.py             # PlatformService - veri yönetimi + JSON persistence
-├── frontend/                  # GUI katmanı
-│   ├── styles.py              # Renk paleti + QSS stilleri
-│   ├── widgets.py             # StatCard, KursCard, OgrenciCard
-│   ├── dialogs.py             # Yeni kayıt / detay pencereleri
-│   └── main_window.py         # Ana pencere (sidebar + 3 sayfa)
-└── data/
-    └── platform.json          # Otomatik üretilir
-```
+### Egitmen (`backend/models.py`)
 
-## Sınıflar (proje şartnamesine göre)
+- **Ozellikler:** `ad`, `uzmanlik`
 
-### `Egitmen`
-- `ad`
-- `uzmanlik`
 
-### `Ogrenci`
-- `ogrenci_id`, `ad`, `email`, `kayitli_kurslar`
-- `kurs_listesi(tum_kurslar)` → öğrencinin kayıtlı olduğu kursları döner
+### Ogrenci (`backend/models.py`)
 
-### `Kurs`
-- `kurs_id`, `kurs_adi`, `egitmen`, `kontenjan`, `kayitli_ogrenciler`
-- `ogrenci_kaydet(ogrenci)` → kontenjan / mükerrer kayıt kontrolü ile kayıt yapar
+- **Ozellikler:** `ogrenci_id`, `ad`, `email`, `kayitli_kurslar`
+- **Metodlar:** Kurs listesi filtreleme (ogrencinin kayitli oldugu kurslar)
 
-## Özellikler
 
-- **Dashboard** — toplam kurs, öğrenci, aktif kayıt ve ortalama doluluk istatistikleri
-- **Kurslar** — 2 sütunlu kart grid'i, her kart için doluluk barı, arama, ekleme/silme/detay
-- **Öğrenciler** — baş harfli avatarlı kart listesi, kurs sayısı göstergesi, arama
-- **Kayıt akışı** — bir kursa öğrenci kaydetme; kontenjan dolduysa veya mükerrer kayıtta uyarı
-- **Otomatik kalıcılık** — her değişiklik anında JSON'a yazılır
-- **Türkçe arayüz** — placeholder'lardan onay mesajlarına kadar
+### Kurs (`backend/models.py`)
+
+- **Ozellikler:** `kurs_id`, `kurs_adi`, `egitmen`, `kontenjan`, `kayitli_ogrenciler`
+- **Metodlar:** Ogrenci kaydetme (kontenjan ve mukerrer kayit kontrolu)
+
+
+## Ozellikler
+
+- **Dashboard:** 4 metrik (Toplam Kurs, Ogrenci, Aktif Kayit, Ortalama Doluluk) + populer kurslar listesi
+- **Kurslar:** 2 sutunlu kart grid'i, her kart icin doluluk bari, arama, ekleme/silme/detay
+- **Ogrenciler:** Bas harfli avatarli kart listesi, kurs sayisi gostergesi, arama
+- **Kayit Akisi:** Bir kursa ogrenci kaydetme; kontenjan dolduysa veya mukerrer kayitta uyari
+- **Otomatik Kalicilik:** Her degisiklik aninda JSON'a yazilir
+- **Tasarim:** Koyu tema (siyah arkaplan) + electric lime accent (#c5ff00) + sade tipografi
+
+
+## Ekran Goruntuleri
+
+### Kontrol Merkezi
+
+![Kontrol Merkezi](images/kontrol_merkezi.png)
+
+### Kurslar
+
+![Kurslar](images/kurslar.png)
+
+### Ogrenciler
+
+![Ogrenciler](images/ogrenciler.png)
+
+
+## Kurulum ve Calistirma
+
+    pip install PyQt5
+    python main.py
+
+## Ornek Veri
+
+Ilk acilista `data/platform.json` ornek verilerle otomatik olusturulur. Tum degisiklikler bu dosyaya otomatik kaydedilir.
